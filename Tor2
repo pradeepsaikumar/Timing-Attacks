@@ -1,0 +1,12 @@
+import time
+from scapy.all import sniff
+
+def packet_callback(packet):
+    timestamp = time.time()
+    if packet.haslayer('IP'):
+        src = packet['IP'].src
+        dst = packet['IP'].dst
+        print(f"Packet: {src} -> {dst}, Time: {timestamp}")
+
+# Capture packets and log timestamp
+sniff(iface="eth0", prn=packet_callback, count=100)
